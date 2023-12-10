@@ -1,0 +1,66 @@
+CREATE TABLE Tournament
+(
+  TounamentID INT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Facility VARCHAR(50) NOT NULL,
+  StartDate DATE NOT NULL,
+  EndDate DATE NOT NULL,
+  PRIMARY KEY (TounamentID)
+);
+
+CREATE TABLE Team
+(
+  Name VARCHAR(50) NOT NULL,
+  NumPlayers INT NOT NULL,
+  TeamID INT NOT NULL,
+  AgeGroup VARCHAR(50) NOT NULL,
+  PRIMARY KEY (TeamID)
+);
+
+CREATE TABLE Organization
+(
+  OrganizationID INT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Amount INT NOT NULL,
+  PRIMARY KEY (OrganizationID)
+);
+
+CREATE TABLE Coach
+(
+  Name VARCHAR(50) NOT NULL,
+  YearsCoached INT NOT NULL,
+  CoachID INT NOT NULL,
+  TeamID INT NOT NULL,
+  PRIMARY KEY (CoachID),
+  FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+);
+
+CREATE TABLE Player
+(
+  Name VARCHAR(50) NOT NULL,
+  JerseyNum INT NOT NULL,
+  Position VARCHAR(50) NOT NULL,
+  MatchesPlayed INT NOT NULL,
+  PlayerID INT NOT NULL,
+  TeamID INT NOT NULL,
+  PRIMARY KEY (PlayerID),
+  FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+);
+
+CREATE TABLE Sponsors
+(
+  OrganizationID INT NOT NULL,
+  TounamentID INT NOT NULL,
+  PRIMARY KEY (OrganizationID, TounamentID),
+  FOREIGN KEY (OrganizationID) REFERENCES Organization(OrganizationID),
+  FOREIGN KEY (TounamentID) REFERENCES Tournament(TounamentID)
+);
+
+CREATE TABLE Participates_in
+(
+  TounamentID INT NOT NULL,
+  TeamID INT NOT NULL,
+  PRIMARY KEY (TounamentID, TeamID),
+  FOREIGN KEY (TounamentID) REFERENCES Tournament(TounamentID),
+  FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+);
